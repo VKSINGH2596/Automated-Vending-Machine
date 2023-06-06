@@ -36,3 +36,13 @@ class Datahub:
 
     def connection_close(self):
         self.my_con.close()
+
+    def data_update(self, column_value, where_condition):
+        sql_query = f"Update {self.table_name} set {column_value} where {where_condition}"
+        self.my_cursor.execute(sql_query)
+        return self.my_cursor
+
+    def data_delete(self, where_condition):
+        sql_query = f"Delete from {self.table_name} where {where_condition}"
+        self.my_cursor.execute(sql_query)
+        return self.my_cursor
