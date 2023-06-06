@@ -46,3 +46,8 @@ class Datahub:
         sql_query = f"Delete from {self.table_name} where {where_condition}"
         self.my_cursor.execute(sql_query)
         return self.my_cursor
+
+    def data_insert(self, column, values):
+        sql_query = f"Insert into {self.table_name} {column} values {values}"
+        self.my_cursor.execute(sql_query)
+        return self.my_cursor
