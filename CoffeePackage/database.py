@@ -47,7 +47,14 @@ class Datahub:
         self.my_cursor.execute(sql_query)
         return self.my_cursor
 
-    def data_insert(self, column, values):
-        sql_query = f"Insert into {self.table_name} {column} values {values}"
+    def data_insert(self, **values):
+        my_columns = ''
+        my_values = ''
+        for data in values:
+            my_columns += data + ', '
+            my_values += values[data] + ', '
+        my_columns = my_columns[:len(my_columns)-2]
+        my_values = my_values[:len(my_values) - 2]
+        sql_query = f"Insert into {self.table_name} {my_columns} values {my_values}"
         self.my_cursor.execute(sql_query)
         return self.my_cursor
