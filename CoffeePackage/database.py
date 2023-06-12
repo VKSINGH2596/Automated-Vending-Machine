@@ -34,6 +34,15 @@ class Datahub:
         self.my_cursor.execute(sql_query)
         return self.my_cursor
 
+    # def select(self, columns, clause):
+    #     if clause != '':
+    #         sql_query = f"Select {columns} from {self.table_name} where {clause}"
+    #     else:
+    #         sql_query = f"Select {columns} from {self.table_name}"
+    #
+    #     self.my_cursor.execute(sql_query)
+    #     return self.my_cursor
+
     def connection_close(self):
         self.my_con.close()
 
@@ -52,9 +61,12 @@ class Datahub:
         my_values = ''
         for data in values:
             my_columns += data + ', '
-            my_values += values[data] + ', '
+            my_values += "'"+values[data] + "', "
         my_columns = my_columns[:len(my_columns)-2]
         my_values = my_values[:len(my_values) - 2]
-        sql_query = f"Insert into {self.table_name} {my_columns} values {my_values}"
+        sql_query = f"Insert into {self.table_name} ({my_columns}) values ({my_values})"
         self.my_cursor.execute(sql_query)
+        self.my_con.commit()
+        sql_query1 = f"Select IDENT_CURRENT('{self.table_name}') "
+        self.my_cursor.execute(sql_query1)
         return self.my_cursor
